@@ -18,7 +18,8 @@ namespace BusinessObject.Models
         public int DistrictId { get; set; }
         public string PhoneNumber { get; set; } = null!;
         public int RatingId { get; set; }
-        public string Avatar { get; set; } = null!;
+        public string? Avatar { get; set; }
+        public string? CoverImage { get; set; }
 
         public virtual District District { get; set; } = null!;
         public virtual Rating Rating { get; set; } = null!;
