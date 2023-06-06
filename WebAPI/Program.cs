@@ -1,5 +1,8 @@
 using BusinessObject.Models;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Repositories.CityRepositories;
+using Repositories.Repositories.DistrictRepositories;
+using Repositories.Repositories.ImageRepositories;
 using Repositories.Repositories.RestaurantRepositories;
 using Repositories.Repositories.ReviewRepositories;
 
@@ -16,6 +19,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
 
 var app = builder.Build();
