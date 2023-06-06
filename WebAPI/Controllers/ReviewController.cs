@@ -18,5 +18,11 @@ namespace WebAPI.Controllers
             var isSuccess = _repo.CreateAReview(review);
             return isSuccess ? Ok(isSuccess) : BadRequest();
         }
+
+        [HttpGet("TrendingRestaurant")]
+        public IActionResult GetTrendingRestaurant()
+        {
+            return Ok(_repo.GetTopRestaurantTrending());
+        }
     }
 }
