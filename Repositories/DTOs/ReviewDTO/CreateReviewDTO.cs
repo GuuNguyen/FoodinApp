@@ -13,7 +13,5 @@ namespace Repositories.DTOs.ReviewDTO
         public string? Comment { get; set; }
         public string? Image { get; set; }
         public int UserId { get; set; }
-        public int? Helpful { get; set; }
-        public int? Unhelpful { get; set; }
     }
 }

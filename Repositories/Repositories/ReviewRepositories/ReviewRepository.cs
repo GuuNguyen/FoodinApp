@@ -26,6 +26,8 @@ namespace Repositories.Repositories.ReviewRepositories
             if (review == null) return false;
             var newReview = _mapper.Map<Review>(review);
             newReview.DateReview = DateTime.Now;
+            newReview.Helpful = 0;
+            newReview.Unhelpful = 0;
             _context.Reviews.Add(newReview);
             _context.SaveChanges();
             return true;
@@ -41,6 +43,52 @@ namespace Repositories.Repositories.ReviewRepositories
                                     .Join(_context.Restaurants, r => r, restaurant => restaurant.RestaurantId, (r, restaurant) => restaurant) // Kết hợp với bảng Restaurants để lấy thông tin nhà hàng
                                     .ToList();
             return top5Restaurants;
+        }
+
+        public void VoteAReview(VoteRequestModel model)
+        {
+            var existingVote = _context.Votes.FirstOrDefault(v => v.ReviewId == model.ReviewId && v.UserId == model.UserId);
+            if (existingVote != null)
+            {
+                _context.Votes.Remove(existingVote);
+
+                var review = _context.Reviews.FirstOrDefault(r => r.ReviewId == model.ReviewId);
+                if (review != null)
+                {
+                    if (model.IsHelpful)
+                    {
+                        review.Helpful--;
+                    }
+                    else
+                    {
+                        review.Unhelpful--;
+                    }
+                }
+                _context.SaveChanges();
+            }
+            else
+            {
+                var vote = new Vote
+                {
+                    ReviewId = model.ReviewId,
+                    UserId = model.UserId,
+                    IsHelpful = model.IsHelpful,
+                };
+                _context.Votes.Add(vote);
+                var review = _context.Reviews.FirstOrDefault(r => r.ReviewId == model.ReviewId);
+                if (review != null)
+                {
+                    if (model.IsHelpful)
+                    {
+                        review.Helpful++;
+                    }
+                    else
+                    {
+                        review.Unhelpful++;
+                    }
+                }
+                _context.SaveChanges();
+            }
         }
     }
 }

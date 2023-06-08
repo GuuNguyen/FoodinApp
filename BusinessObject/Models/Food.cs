@@ -8,7 +8,6 @@ namespace BusinessObject.Models
         public int FoodId { get; set; }
         public string FoodName { get; set; } = null!;
         public double FoodPrice { get; set; }
-        public string? FoodImage { get; set; }
         public int TypeFoodId { get; set; }
         public int RestaurantId { get; set; }
 
