@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessObject.Models;
 using Repositories.DTOs.ReviewDTO;
+using Repositories.DTOs.UserDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Repositories.Helper
         public MappingProfile()
         {
             CreateMap<Review, CreateReviewDTO>().ReverseMap();
+            CreateMap<User, CreateUserDTO>().ReverseMap();
         }
     }
 }

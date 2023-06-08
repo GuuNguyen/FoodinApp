@@ -5,6 +5,7 @@ using Repositories.Repositories.DistrictRepositories;
 using Repositories.Repositories.ImageRepositories;
 using Repositories.Repositories.RestaurantRepositories;
 using Repositories.Repositories.ReviewRepositories;
+using Repositories.Repositories.UserRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
