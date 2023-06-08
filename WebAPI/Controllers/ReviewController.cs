@@ -24,5 +24,13 @@ namespace WebAPI.Controllers
         {
             return Ok(_repo.GetTopRestaurantTrending());
         }
+
+        [HttpPost("Vote")]
+        public IActionResult VoteAReview(VoteRequestModel model)
+        {
+            _repo.VoteAReview(model);
+            return Ok();
+        }
+
     }
 }

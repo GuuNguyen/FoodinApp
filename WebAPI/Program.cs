@@ -23,7 +23,6 @@ builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
-
 var app = builder.Build();
 
 

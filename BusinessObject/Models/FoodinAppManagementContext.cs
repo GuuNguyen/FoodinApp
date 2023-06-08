@@ -25,13 +25,14 @@ namespace BusinessObject.Models
         public virtual DbSet<Review> Reviews { get; set; } = null!;
         public virtual DbSet<TypeFood> TypeFoods { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Vote> Votes { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server =foodindb.clkqn1da5xgy.us-east-1.rds.amazonaws.com,1433; database = FoodinAppManagement;uid=admin;pwd=SE150270;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("server =(local); database = FoodinAppManagement;uid=sa;pwd=1;TrustServerCertificate=True;");
             }
         }
 
@@ -196,6 +197,17 @@ namespace BusinessObject.Models
                 entity.Property(e => e.PhoneNumber).HasMaxLength(50);
 
                 entity.Property(e => e.UserName).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Vote>(entity =>
+            {
+                entity.ToTable("Vote");
+
+                entity.Property(e => e.VoteId).HasColumnName("VoteID");
+
+                entity.Property(e => e.ReviewId).HasColumnName("ReviewID");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
             });
 
             OnModelCreatingPartial(modelBuilder);
