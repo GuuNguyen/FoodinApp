@@ -9,5 +9,8 @@ namespace BusinessObject.Models
         public int ReviewId { get; set; }
         public int UserId { get; set; }
         public bool IsHelpful { get; set; }
+
+        public virtual Review Review { get; set; } = null!;
+        public virtual User User { get; set; } = null!;
     }
 }

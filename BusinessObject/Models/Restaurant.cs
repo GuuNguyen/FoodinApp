@@ -16,13 +16,13 @@ namespace BusinessObject.Models
         public string ResName { get; set; } = null!;
         public string Address { get; set; } = null!;
         public int DistrictId { get; set; }
-        public string PhoneNumber { get; set; } = null!;
-        public int RatingId { get; set; }
+        public string? PhoneNumber { get; set; }
+        public int? RatingId { get; set; }
         public string? Avatar { get; set; }
         public string? CoverImage { get; set; }
 
         public virtual District District { get; set; } = null!;
-        public virtual Rating Rating { get; set; } = null!;
+        public virtual Rating? Rating { get; set; }
         public virtual ICollection<Food> Foods { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }

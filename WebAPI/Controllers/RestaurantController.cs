@@ -25,11 +25,10 @@ namespace WebAPI.Controllers
             return Ok(_repo.GetRestaurantById(id));
         }
         
-        [HttpGet("ByAddress")]
-        public IActionResult GetRestaurantById(GetAddressDTO address)
+        [HttpGet("ByDistrict/{id}")]
+        public IActionResult GetRestaurantByDistrict(int id)
         {
-            return Ok(_repo.GetResByAddress(address));
+            return Ok(_repo.GetResByAddress(id));
         }
-
     }
 }
