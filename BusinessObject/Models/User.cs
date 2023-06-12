@@ -7,7 +7,9 @@ namespace BusinessObject.Models
     {
         public User()
         {
+            Blogs = new HashSet<Blog>();
             Reviews = new HashSet<Review>();
+            Votes = new HashSet<Vote>();
         }
 
         public int UserId { get; set; }
@@ -18,6 +20,8 @@ namespace BusinessObject.Models
         public string Password { get; set; } = null!;
         public bool SubscriptionStatus { get; set; }
 
+        public virtual ICollection<Blog> Blogs { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Vote> Votes { get; set; }
     }
 }

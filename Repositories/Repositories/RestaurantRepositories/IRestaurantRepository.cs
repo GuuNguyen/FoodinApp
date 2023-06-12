@@ -12,7 +12,7 @@ namespace Repositories.Repositories.RestaurantRepositories
     {
         List<Restaurant> GetAll();
         Restaurant GetRestaurantById(int id);
-        List<Restaurant> GetResByAddress(GetAddressDTO address);
+        List<Restaurant> GetResByAddress(int id);
 
     }
 }

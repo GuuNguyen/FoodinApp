@@ -5,6 +5,11 @@ namespace BusinessObject.Models
 {
     public partial class Review
     {
+        public Review()
+        {
+            Votes = new HashSet<Vote>();
+        }
+
         public int ReviewId { get; set; }
         public int RestaurantId { get; set; }
         public DateTime DateReview { get; set; }
@@ -17,5 +22,6 @@ namespace BusinessObject.Models
 
         public virtual Restaurant Restaurant { get; set; } = null!;
         public virtual User User { get; set; } = null!;
+        public virtual ICollection<Vote> Votes { get; set; }
     }
 }
