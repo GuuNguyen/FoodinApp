@@ -13,6 +13,6 @@ namespace Repositories.Repositories.RestaurantRepositories
         List<Restaurant> GetAll();
         Restaurant GetRestaurantById(int id);
         List<Restaurant> GetResByAddress(int id);
-
+        bool CreateRestaurant(CreateResDTO res);
     }
 }
