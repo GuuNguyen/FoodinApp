@@ -11,7 +11,7 @@ namespace Repositories.Repositories.ReviewRepositories
     public interface IReviewRepository
     {
         bool CreateAReview(CreateReviewDTO review);
-        List<Restaurant> GetTopRestaurantTrending();
+        List<Restaurant> GetTopRestaurantTrendingByDistrictId(int districtId);
         void VoteAReview(VoteRequestModel model);
     }
 }

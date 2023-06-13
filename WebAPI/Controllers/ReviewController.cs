@@ -19,10 +19,10 @@ namespace WebAPI.Controllers
             return isSuccess ? Ok(isSuccess) : BadRequest();
         }
 
-        [HttpGet("TrendingRestaurant")]
-        public IActionResult GetTrendingRestaurant()
+        [HttpGet("TrendingRestaurant/{districtID}")]
+        public IActionResult GetTrendingRestaurant(int districtID)
         {
-            return Ok(_repo.GetTopRestaurantTrending());
+            return Ok(_repo.GetTopRestaurantTrendingByDistrictId(districtID));
         }
 
         [HttpPost("Vote")]

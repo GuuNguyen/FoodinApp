@@ -33,17 +33,20 @@ namespace Repositories.Repositories.ReviewRepositories
             return true;
         }
 
-        public List<Restaurant> GetTopRestaurantTrending()
+        public List<Restaurant> GetTopRestaurantTrendingByDistrictId(int districtId)
         {
             var top5Restaurants = _context.Reviews
-                                    .GroupBy(r => r.RestaurantId) // Nhóm các review theo RestaurantID
-                                    .OrderByDescending(g => g.Count()) // Sắp xếp theo số lượng review giảm dần
-                                    .Take(5) // Lấy ra 5 nhóm đầu tiên
-                                    .Select(g => g.Key) // Chọn RestaurantID từ mỗi nhóm
-                                    .Join(_context.Restaurants, r => r, restaurant => restaurant.RestaurantId, (r, restaurant) => restaurant) // Kết hợp với bảng Restaurants để lấy thông tin nhà hàng
-                                    .ToList();
+                .Where(r => r.Restaurant.DistrictId == districtId) // Lọc các review theo districtId
+                .GroupBy(r => r.RestaurantId) // Nhóm các review theo RestaurantId
+                .OrderByDescending(g => g.Count()) // Sắp xếp theo số lượng review giảm dần
+                .Take(5) // Lấy ra 5 nhóm đầu tiên
+                .Select(g => g.Key) // Chọn RestaurantId từ mỗi nhóm
+                .Join(_context.Restaurants, r => r, restaurant => restaurant.RestaurantId, (r, restaurant) => restaurant) // Kết hợp với bảng Restaurants để lấy thông tin nhà hàng
+                .ToList();
+
             return top5Restaurants;
         }
+
 
         public void VoteAReview(VoteRequestModel model)
         {
