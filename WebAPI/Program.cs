@@ -1,5 +1,6 @@
 using BusinessObject.Models;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Repositories.BlogRepositories;
 using Repositories.Repositories.CityRepositories;
 using Repositories.Repositories.DistrictRepositories;
 using Repositories.Repositories.ImageRepositories;
@@ -24,6 +25,7 @@ builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.ConfigureSwaggerGen(setup =>
 {
     setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo

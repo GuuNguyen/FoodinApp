@@ -10,5 +10,6 @@ namespace Repositories.Repositories.BlogRepositories
     public interface IBlogRepository
     {
         List<GetBlogDTO> GetAll();
+        bool CreateBlog(CreateBlogDTO blog);
     }
 }

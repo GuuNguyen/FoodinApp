@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessObject.Models;
+using Repositories.DTOs.BlogDTO;
 using Repositories.DTOs.ReviewDTO;
 using Repositories.DTOs.UserDTO;
 using System;
@@ -17,6 +18,7 @@ namespace Repositories.Helper
         {
             CreateMap<Review, CreateReviewDTO>().ReverseMap();
             CreateMap<User, CreateUserDTO>().ReverseMap();
+            CreateMap<Blog, CreateBlogDTO>().ReverseMap();
         }
     }
 }
