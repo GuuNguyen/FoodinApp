@@ -23,8 +23,16 @@ namespace Repositories.Repositories.ReviewRepositories
 
         public bool CreateAReview(CreateReviewDTO review)
         {
-            if (review == null) return false;
             var newReview = _mapper.Map<Review>(review);
+            var res = _context.Restaurants.Find(review.RestaurantId);
+            var rating = _context.Ratings.Where(r => r.RatingId == res.RatingId).SingleOrDefault();
+            if (review == null || res == null || rating == null) return false;
+            if(review.RatingReview == 1){ rating.OneStartCount++;}
+            else if(review.RatingReview == 2) {  rating.TwoStartCount++; }
+            else if(review.RatingReview == 3) {  rating.ThreeStartCount++; }
+            else if(review.RatingReview == 4) {  rating.FourStartCount++; }
+            else if(review.RatingReview == 5) {  rating.FiveStartCount++; }
+            _context.Ratings.Update(rating);
             newReview.DateReview = DateTime.Now;
             newReview.Helpful = 0;
             newReview.Unhelpful = 0;

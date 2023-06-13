@@ -30,5 +30,11 @@ namespace WebAPI.Controllers
         {
             return Ok(_repo.GetResByAddress(id));
         }
+        [HttpPost]
+        public IActionResult CreateResraurant(CreateResDTO res)
+        {
+            var isSuccess = _repo.CreateRestaurant(res);
+            return isSuccess ? Ok("Successful") : BadRequest("Fail");
+        }
     }
 }
