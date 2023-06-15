@@ -18,9 +18,12 @@ namespace BusinessObject.Models
 
         public virtual DbSet<Blog> Blogs { get; set; } = null!;
         public virtual DbSet<City> Cities { get; set; } = null!;
+        public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<District> Districts { get; set; } = null!;
+        public virtual DbSet<Favorite> Favorites { get; set; } = null!;
         public virtual DbSet<Food> Foods { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
+        public virtual DbSet<Like> Likes { get; set; } = null!;
         public virtual DbSet<Rating> Ratings { get; set; } = null!;
         public virtual DbSet<Restaurant> Restaurants { get; set; } = null!;
         public virtual DbSet<Review> Reviews { get; set; } = null!;
@@ -32,6 +35,7 @@ namespace BusinessObject.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("server =foodindb.clkqn1da5xgy.us-east-1.rds.amazonaws.com,1433; database = FoodinAppManagement;uid=admin;pwd=SE150270;TrustServerCertificate=True;");
             }
         }
@@ -43,6 +47,8 @@ namespace BusinessObject.Models
                 entity.ToTable("Blog");
 
                 entity.Property(e => e.BlogId).HasColumnName("BlogID");
+
+                entity.Property(e => e.CreateAt).HasColumnType("datetime");
 
                 entity.Property(e => e.Title).HasMaxLength(50);
 
@@ -64,6 +70,31 @@ namespace BusinessObject.Models
                 entity.Property(e => e.CityName).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.ToTable("Comment");
+
+                entity.Property(e => e.CommentId).HasColumnName("CommentID");
+
+                entity.Property(e => e.BlogId).HasColumnName("BlogID");
+
+                entity.Property(e => e.CreateAt).HasColumnType("datetime");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.Blog)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.BlogId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Comment_Blog");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Comment_User");
+            });
+
             modelBuilder.Entity<District>(entity =>
             {
                 entity.ToTable("District");
@@ -79,6 +110,29 @@ namespace BusinessObject.Models
                     .HasForeignKey(d => d.CityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_District_City");
+            });
+
+            modelBuilder.Entity<Favorite>(entity =>
+            {
+                entity.ToTable("Favorite");
+
+                entity.Property(e => e.FavoriteId).HasColumnName("FavoriteID");
+
+                entity.Property(e => e.RestaurantId).HasColumnName("RestaurantID");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.Restaurant)
+                    .WithMany(p => p.Favorites)
+                    .HasForeignKey(d => d.RestaurantId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Favorite_Restaurant");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Favorites)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Favorite_User");
             });
 
             modelBuilder.Entity<Food>(entity =>
@@ -121,6 +175,29 @@ namespace BusinessObject.Models
                     .HasForeignKey(d => d.RestaurantId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Image_Restaurant");
+            });
+
+            modelBuilder.Entity<Like>(entity =>
+            {
+                entity.ToTable("Like");
+
+                entity.Property(e => e.LikeId).HasColumnName("LikeID");
+
+                entity.Property(e => e.BlogId).HasColumnName("BlogID");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.Blog)
+                    .WithMany(p => p.Likes)
+                    .HasForeignKey(d => d.BlogId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Like_Blog");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Likes)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Like_User");
             });
 
             modelBuilder.Entity<Rating>(entity =>

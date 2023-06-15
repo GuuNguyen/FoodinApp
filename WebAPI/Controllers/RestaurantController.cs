@@ -30,10 +30,31 @@ namespace WebAPI.Controllers
         {
             return Ok(_repo.GetResByAddress(id));
         }
+        
+        [HttpGet("Favorite/{userId}")]
+        public IActionResult GetFavoriteRes(int userId)
+        {
+            var list = _repo.GetFavoriteRes(userId);
+            return list != null ? Ok(list) : NotFound();
+        }
         [HttpPost]
         public IActionResult CreateResraurant(CreateResDTO res)
         {
             var isSuccess = _repo.CreateRestaurant(res);
+            return isSuccess ? Ok("Successful") : BadRequest("Fail");
+        }
+        
+        [HttpPost("FavoriteARes")]
+        public IActionResult AddResToFavorite(FavDTO dto)
+        {
+            var isSuccess = _repo.FavoriteARes(dto);
+            return isSuccess ? Ok("Successful") : BadRequest("Fail");
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var isSuccess = _repo.DeleteRestaurant(id);
             return isSuccess ? Ok("Successful") : BadRequest("Fail");
         }
     }

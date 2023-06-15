@@ -13,5 +13,9 @@ namespace Repositories.DTOs.BlogDTO
         public string FullName { get; set; } = null!;
         public string Title { get; set; } = null!;
         public string BlogContent { get; set; } = null!;
+        public int LikeCount { get; set; }
+        public int CommentCount { get; set; }
+        public string CreateAt { get; set; }
+        public string? BlogImage { get; set; }
     }
 }

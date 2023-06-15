@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BusinessObject.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repositories.DTOs.UserDTO;
 using Repositories.Repositories.UserRepositories;
@@ -15,6 +16,13 @@ namespace WebAPI.Controllers
         {
             _repo = repo;
         }
+
+        [HttpGet]
+        public IActionResult GetAllUser()
+        {
+            return Ok(_repo.GetAll());
+        }
+
         [HttpPost("Login")]
         public IActionResult Login(LoginDTO user)
         {
@@ -25,6 +33,12 @@ namespace WebAPI.Controllers
         {
             var isSuccess = _repo.Register(user);
             return isSuccess ? Ok("Successful created!") : BadRequest("Fail created!");
+        }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var isSuccess = _repo.Delete(id);
+            return isSuccess ? Ok("Successful") : BadRequest("Fail");
         }
     }
 }

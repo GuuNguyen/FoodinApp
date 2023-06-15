@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Repositories.DTOs.BlogDTO
 {
-    public class CreateBlogDTO
+    public class LikeABlogDTO
     {
         public int UserId { get; set; }
-        public string Title { get; set; } = null!;
-        public string BlogContent { get; set; } = null!;
-        public string? BlogImage { get; set; }
+        public int BlogId { get; set; }
     }
 }

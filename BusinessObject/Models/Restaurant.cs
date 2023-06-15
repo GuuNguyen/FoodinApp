@@ -7,6 +7,7 @@ namespace BusinessObject.Models
     {
         public Restaurant()
         {
+            Favorites = new HashSet<Favorite>();
             Foods = new HashSet<Food>();
             Images = new HashSet<Image>();
             Reviews = new HashSet<Review>();
@@ -23,6 +24,7 @@ namespace BusinessObject.Models
 
         public virtual District District { get; set; } = null!;
         public virtual Rating? Rating { get; set; }
+        public virtual ICollection<Favorite> Favorites { get; set; }
         public virtual ICollection<Food> Foods { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
