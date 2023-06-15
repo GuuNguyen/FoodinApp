@@ -243,7 +243,7 @@ namespace BusinessObject.Models
 
                 entity.Property(e => e.Comment).HasMaxLength(4000);
 
-                entity.Property(e => e.DateReview).HasColumnType("date");
+                entity.Property(e => e.DateReview).HasColumnType("datetime");
 
                 entity.Property(e => e.Image).HasMaxLength(4000);
 

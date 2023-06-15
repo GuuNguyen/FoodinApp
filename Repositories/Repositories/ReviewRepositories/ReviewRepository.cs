@@ -21,18 +21,38 @@ namespace Repositories.Repositories.ReviewRepositories
             _context = context;
             _mapper = mapper;
         }
-
+        public List<GetReviewDTO> GetReviews(int resId)
+        {
+            var currentDateTime = DateTime.Now;
+            return (from rv in _context.Reviews
+                       join re in _context.Restaurants on rv.RestaurantId equals re.RestaurantId
+                       join u in _context.Users on rv.UserId equals u.UserId
+                       where re.RestaurantId == resId
+                       select new GetReviewDTO
+                       {
+                           ReviewId = rv.ReviewId,
+                           RestaurantId = rv.RestaurantId,
+                           UserId = rv.UserId,
+                           FullName = u.FullName,
+                           DateReview = FormatDateTime(rv.DateReview, currentDateTime),
+                           RatingReview = rv.RatingReview,
+                           Comment = rv.Comment,
+                           Image = rv.Image,
+                           Helpful = rv.Helpful,
+                           Unhelpful = rv.Unhelpful
+                       }).ToList();
+        }
         public bool CreateAReview(CreateReviewDTO review)
         {
             var newReview = _mapper.Map<Review>(review);
             var res = _context.Restaurants.Find(review.RestaurantId);
             var rating = _context.Ratings.Where(r => r.RatingId == res.RatingId).SingleOrDefault();
             if (review == null || res == null || rating == null) return false;
-            if(review.RatingReview == 1)      {  rating.OneStartCount++; }
-            else if(review.RatingReview == 2) {  rating.TwoStartCount++; }
-            else if(review.RatingReview == 3) {  rating.ThreeStartCount++; }
-            else if(review.RatingReview == 4) {  rating.FourStartCount++; }
-            else if(review.RatingReview == 5) {  rating.FiveStartCount++; }
+            if (review.RatingReview == 1) { rating.OneStartCount++; }
+            else if (review.RatingReview == 2) { rating.TwoStartCount++; }
+            else if (review.RatingReview == 3) { rating.ThreeStartCount++; }
+            else if (review.RatingReview == 4) { rating.FourStartCount++; }
+            else if (review.RatingReview == 5) { rating.FiveStartCount++; }
             _context.Ratings.Update(rating);
             newReview.DateReview = DateTime.Now;
             newReview.Helpful = 0;
@@ -52,7 +72,7 @@ namespace Repositories.Repositories.ReviewRepositories
                 .Select(g => g.Key) // Chọn RestaurantId từ mỗi nhóm
                 .Join(_context.Restaurants, r => r, restaurant => restaurant.RestaurantId, (r, restaurant) => restaurant) // Kết hợp với bảng Restaurants để lấy thông tin nhà hàng
                 .ToList();
-            
+
             var newList = _mapper.Map<List<GetRestaurantDTO>>(top5Restaurants);
             foreach (var restaurant in newList)
             {
@@ -114,6 +134,46 @@ namespace Repositories.Repositories.ReviewRepositories
             _context.Reviews.Remove(review);
             _context.SaveChanges();
             return true;
+        }
+
+        private static string FormatDateTime(DateTime blogCreateAt, DateTime currentDateTime)
+        {
+            var timeDifference = currentDateTime - blogCreateAt;
+
+            if (timeDifference.TotalDays >= 7)
+            {
+                // More than a week, display specific date
+                return blogCreateAt.ToString("dd/MM/yyyy");
+            }
+            else if (timeDifference.TotalDays >= 1)
+            {
+                // More than a day, display number of days ago
+                var daysAgo = (int)Math.Floor(timeDifference.TotalDays);
+                return $"{daysAgo} days ago";
+            }
+            else if (timeDifference.TotalHours >= 1)
+            {
+                // More than an hour, display number of hours ago
+                var hoursAgo = (int)Math.Floor(timeDifference.TotalHours);
+                return $"{hoursAgo} hours ago";
+            }
+            else if (timeDifference.TotalMinutes >= 1)
+            {
+                // More than a minute, display number of minutes ago
+                var minutesAgo = (int)Math.Floor(timeDifference.TotalMinutes);
+                return $"{minutesAgo} minutes ago";
+            }
+            else if (timeDifference.TotalSeconds >= 1)
+            {
+                // More than a second, display number of seconds ago
+                var secondsAgo = (int)Math.Floor(timeDifference.TotalSeconds);
+                return $"{secondsAgo} seconds ago";
+            }
+            else
+            {
+                // Just now
+                return "Just now";
+            }
         }
     }
 }

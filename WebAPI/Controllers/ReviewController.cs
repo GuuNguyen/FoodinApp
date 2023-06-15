@@ -13,6 +13,12 @@ namespace WebAPI.Controllers
         private readonly IReviewRepository _repo;
         public ReviewController(IReviewRepository repo) => _repo = repo;
 
+        [HttpGet("{restaurantId}")]
+        public IActionResult GetAllReviewByRestaurant(int restaurantId)
+        {
+            return Ok(_repo.GetReviews(restaurantId));
+        }
+
         [HttpPost]
         public IActionResult CreateAReview(CreateReviewDTO review)
         {

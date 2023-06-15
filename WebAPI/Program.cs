@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Repositories.Repositories.BlogRepositories;
 using Repositories.Repositories.CityRepositories;
 using Repositories.Repositories.DistrictRepositories;
+using Repositories.Repositories.FoodRepositories;
 using Repositories.Repositories.ImageRepositories;
 using Repositories.Repositories.RestaurantRepositories;
 using Repositories.Repositories.ReviewRepositories;
@@ -26,6 +27,7 @@ builder.Services.AddScoped<IDistrictRepository, DistrictRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<IFoodRepository, FoodRepository>();
 builder.Services.ConfigureSwaggerGen(setup =>
 {
     setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
