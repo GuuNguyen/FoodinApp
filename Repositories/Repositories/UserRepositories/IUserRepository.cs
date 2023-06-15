@@ -11,6 +11,8 @@ namespace Repositories.Repositories.UserRepositories
     public interface IUserRepository
     {
         User Login(LoginDTO user);
+        List<User> GetAll();
         bool Register(CreateUserDTO user);
+        bool Delete(int id);
     }
 }

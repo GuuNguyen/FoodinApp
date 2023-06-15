@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BusinessObject.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repositories.DTOs.ReviewDTO;
 using Repositories.Repositories.ReviewRepositories;
@@ -32,5 +33,11 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
+        [HttpDelete("{reviewId}/User/{userId}")]
+        public IActionResult Delete(int reviewId, int userId)
+        {
+            var isSuccess = _repo.RemoveAReview(reviewId, userId);
+            return isSuccess ? Ok("Successful") : BadRequest("Fail");
+        }
     }
 }

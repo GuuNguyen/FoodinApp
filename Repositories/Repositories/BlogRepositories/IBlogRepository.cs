@@ -11,5 +11,8 @@ namespace Repositories.Repositories.BlogRepositories
     {
         List<GetBlogDTO> GetAll();
         bool CreateBlog(CreateBlogDTO blog);
+        bool LikeABlog(LikeABlogDTO action);
+        bool CommentABlog(CommentABlogDTO action);
+        bool DeleteABlog(int blogId, int userId);
     }
 }

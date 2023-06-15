@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Repositories.DTOs.BlogDTO
 {
-    public class CreateBlogDTO
+    public class CommentABlogDTO
     {
         public int UserId { get; set; }
-        public string Title { get; set; } = null!;
-        public string BlogContent { get; set; } = null!;
-        public string? BlogImage { get; set; }
+        public int BlogId { get; set; }
+        public string CommentContent { get; set; } = null!;
+        public DateTime CreateAt { get; set; }
     }
 }

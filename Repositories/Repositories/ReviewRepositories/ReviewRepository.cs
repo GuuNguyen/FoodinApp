@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessObject.Models;
 using Microsoft.EntityFrameworkCore;
+using Repositories.DTOs.RestaurantDTO;
 using Repositories.DTOs.ReviewDTO;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Repositories.Repositories.ReviewRepositories
             var res = _context.Restaurants.Find(review.RestaurantId);
             var rating = _context.Ratings.Where(r => r.RatingId == res.RatingId).SingleOrDefault();
             if (review == null || res == null || rating == null) return false;
-            if(review.RatingReview == 1){ rating.OneStartCount++;}
+            if(review.RatingReview == 1)      {  rating.OneStartCount++; }
             else if(review.RatingReview == 2) {  rating.TwoStartCount++; }
             else if(review.RatingReview == 3) {  rating.ThreeStartCount++; }
             else if(review.RatingReview == 4) {  rating.FourStartCount++; }
@@ -41,7 +42,7 @@ namespace Repositories.Repositories.ReviewRepositories
             return true;
         }
 
-        public List<Restaurant> GetTopRestaurantTrendingByDistrictId(int districtId)
+        public List<GetRestaurantDTO> GetTopRestaurantTrendingByDistrictId(int districtId)
         {
             var top5Restaurants = _context.Reviews
                 .Where(r => r.Restaurant.DistrictId == districtId) // Lọc các review theo districtId
@@ -51,10 +52,14 @@ namespace Repositories.Repositories.ReviewRepositories
                 .Select(g => g.Key) // Chọn RestaurantId từ mỗi nhóm
                 .Join(_context.Restaurants, r => r, restaurant => restaurant.RestaurantId, (r, restaurant) => restaurant) // Kết hợp với bảng Restaurants để lấy thông tin nhà hàng
                 .ToList();
-
-            return top5Restaurants;
+            
+            var newList = _mapper.Map<List<GetRestaurantDTO>>(top5Restaurants);
+            foreach (var restaurant in newList)
+            {
+                restaurant.CalculatedRating = 0.0;
+            }
+            return newList;
         }
-
 
         public void VoteAReview(VoteRequestModel model)
         {
@@ -100,6 +105,15 @@ namespace Repositories.Repositories.ReviewRepositories
                 }
                 _context.SaveChanges();
             }
+        }
+        public bool RemoveAReview(int reviewId, int userId)
+        {
+            var review = _context.Reviews.Find(reviewId);
+            var isYourReview = _context.Reviews.Any(r => r.ReviewId == reviewId && r.UserId == userId);
+            if (review == null || !isYourReview) return false;
+            _context.Reviews.Remove(review);
+            _context.SaveChanges();
+            return true;
         }
     }
 }

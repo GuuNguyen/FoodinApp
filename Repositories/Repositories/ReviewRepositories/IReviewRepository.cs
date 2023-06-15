@@ -1,4 +1,5 @@
 ﻿using BusinessObject.Models;
+using Repositories.DTOs.RestaurantDTO;
 using Repositories.DTOs.ReviewDTO;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace Repositories.Repositories.ReviewRepositories
     public interface IReviewRepository
     {
         bool CreateAReview(CreateReviewDTO review);
-        List<Restaurant> GetTopRestaurantTrendingByDistrictId(int districtId);
+        List<GetRestaurantDTO> GetTopRestaurantTrendingByDistrictId(int districtId);
         void VoteAReview(VoteRequestModel model);
+        bool RemoveAReview(int reviewId, int userId);
     }
 }

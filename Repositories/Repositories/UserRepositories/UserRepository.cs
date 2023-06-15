@@ -20,6 +20,13 @@ namespace Repositories.Repositories.UserRepositories
             _mapper = mapper;
         }
 
+        
+
+        public List<User> GetAll()
+        {
+            return _context.Users.ToList();
+        }
+
         public User Login(LoginDTO user)
         {
             var thisUser = _context.Users.Where(u => u.UserName == user.UserName && u.Password == user.Password).FirstOrDefault();
@@ -32,7 +39,8 @@ namespace Repositories.Repositories.UserRepositories
 
         public bool Register(CreateUserDTO user)
         {
-            if (user == null) return false;
+            if (user.Email == null || user.FullName == null || user.PhoneNumber == null || 
+                user.UserName == null || user.Password == null) return false;
 
             var isExisted = _context.Users.Where(u => u.UserName == user.UserName || u.Email == user.Email).Any();
             if(isExisted) return false;
@@ -40,6 +48,15 @@ namespace Repositories.Repositories.UserRepositories
             var newUser = _mapper.Map<User>(user);
             newUser.SubscriptionStatus = false;
             _context.Users.Add(newUser);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public bool Delete(int id)
+        {
+            var user = _context.Users.Find(id);
+            if(user == null) return false;
+            _context.Users.Remove(user);
             _context.SaveChanges();
             return true;
         }

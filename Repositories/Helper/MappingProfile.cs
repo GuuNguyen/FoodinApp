@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessObject.Models;
 using Repositories.DTOs.BlogDTO;
+using Repositories.DTOs.RestaurantDTO;
 using Repositories.DTOs.ReviewDTO;
 using Repositories.DTOs.UserDTO;
 using System;
@@ -19,6 +20,9 @@ namespace Repositories.Helper
             CreateMap<Review, CreateReviewDTO>().ReverseMap();
             CreateMap<User, CreateUserDTO>().ReverseMap();
             CreateMap<Blog, CreateBlogDTO>().ReverseMap();
+            CreateMap<Favorite, FavDTO>().ReverseMap();
+            CreateMap<Restaurant, GetRestaurantDTO>().ReverseMap();
+            CreateMap<Comment, CommentABlogDTO>().ReverseMap();
         }
     }
 }

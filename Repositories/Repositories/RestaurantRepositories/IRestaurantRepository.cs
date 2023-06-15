@@ -11,8 +11,11 @@ namespace Repositories.Repositories.RestaurantRepositories
     public interface IRestaurantRepository
     {
         List<Restaurant> GetAll();
-        Restaurant GetRestaurantById(int id);
-        List<Restaurant> GetResByAddress(int id);
+        GetRestaurantDTO GetRestaurantById(int id);
+        List<GetRestaurantDTO> GetFavoriteRes(int userId);
+        List<GetRestaurantDTO> GetResByAddress(int id);
         bool CreateRestaurant(CreateResDTO res);
+        bool FavoriteARes(FavDTO dto);
+        bool DeleteRestaurant(int id);
     }
 }
