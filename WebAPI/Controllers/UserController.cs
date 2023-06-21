@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
             return isSuccess ? Ok("Successful") : BadRequest("Fail");
         }
 
-        [HttpPut("ChangeSubcriptionStatus/User/{userId}")]
+        [HttpPut("ChangeSubcriptionStatus/{userId}")]
         public IActionResult ChangeSubcriptionStatus(int userId)
         {
             var isSuccess = _repo.ChangeSubscriptionStatus(userId);
