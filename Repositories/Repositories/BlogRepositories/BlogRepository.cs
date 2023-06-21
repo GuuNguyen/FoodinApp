@@ -44,6 +44,7 @@ namespace Repositories.Repositories.BlogRepositories
             if (blog == null || blog.BlogContent == null || user == null) return false;
             var newBlog = _mapper.Map<Blog>(blog);
             newBlog.LikeCount = 0;
+            newBlog.CommentCount = 0;
             newBlog.CreateAt = DateTime.Now;
             _context.Blogs.Add(newBlog);
             _context.SaveChanges();
