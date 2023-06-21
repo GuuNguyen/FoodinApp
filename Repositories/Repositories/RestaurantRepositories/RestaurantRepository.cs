@@ -97,7 +97,7 @@ namespace Repositories.Repositories.RestaurantRepositories
             return true;
         }
 
-        public List<GetRestaurantDTO> GetFavoriteRes(int userId)
+        public List<GetFavRestaurant> GetFavoriteRes(int userId)
         {
             var user = _context.Users.Find(userId);
             if (user == null) return null;
@@ -105,17 +105,16 @@ namespace Repositories.Repositories.RestaurantRepositories
                           join f in _context.Favorites on u.UserId equals f.UserId
                           join r in _context.Restaurants on f.RestaurantId equals r.RestaurantId
                           join rt in _context.Ratings on r.RatingId equals rt.RatingId
-                          select new GetRestaurantDTO
+                          join d in _context.Districts on r.DistrictId equals d.DistrictId
+                          join c in _context.Cities on d.CityId equals c.CityId
+                          select new GetFavRestaurant
                           {
                               RestaurantId = r.RestaurantId,
                               ResName = r.ResName,
-                              Address = r.Address,
-                              DistrictId = r.DistrictId,
+                              Address = $"{r.Address}, {d.DistrictName}, {c.CityName}",
                               PhoneNumber = r.PhoneNumber,
-                              RatingId = r.RatingId,
                               CalculatedRating = CalculateRating(r.Rating),
                               Avatar = r.Avatar,
-                              CoverImage = r.CoverImage
                           }).ToList();
             
             return listRes;

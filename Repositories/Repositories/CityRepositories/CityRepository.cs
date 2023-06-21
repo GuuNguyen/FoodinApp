@@ -15,7 +15,7 @@ namespace Repositories.Repositories.CityRepositories
         public CityRepository(FoodinAppManagementContext context) => _context = context;
         public List<City> GetCities()
         {
-            return _context.Cities.ToList();
+            return _context.Cities.OrderBy(c => c.CityName == "Ho Chi Minh" ? 0 : 1).ToList();
         }
     }
 }

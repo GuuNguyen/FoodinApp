@@ -20,12 +20,17 @@ namespace Repositories.Repositories.FoodRepositories
         }
         public List<GetFoodDTO> GetFoodsByRes(int id)
         {
-            var list = (from f in _context.Foods
-                        join r in _context.Restaurants on f.RestaurantId equals r.RestaurantId
-                        join t in _context.TypeFoods on f.TypeFoodId equals t.TypeFoodId
-                        where r.RestaurantId == id
-                        select f).ToList();
-            return _mapper.Map<List<GetFoodDTO>>(list);
+            return (from f in _context.Foods
+                    join r in _context.Restaurants on f.RestaurantId equals r.RestaurantId
+                    join t in _context.TypeFoods on f.TypeFoodId equals t.TypeFoodId
+                    where r.RestaurantId == id
+                    select new GetFoodDTO
+                    {
+                        FoodName = f.FoodName,
+                        FoodPrice = f.FoodPrice,
+                        FoodImage = f.FoodImage,
+                        TypeFoodName = t.TypeFoodName
+                    }).ToList();
         }
         public Food CreateFood(CreateFoodDTO food)
         {
