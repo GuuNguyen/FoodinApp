@@ -17,7 +17,12 @@ namespace Repositories.Repositories.DistrictRepositories
         }
         List<District> IDistrictRepository.GetDistrictsByCityID(int cityID)
         {
-            return _context.Districts.Where(d => d.CityId == cityID).ToList();
+            var districts = _context.Districts.Where(d => d.CityId == cityID).ToList();
+
+            var sortedDistricts = districts.OrderBy(d => d.DistrictId == 21 ? 9 : d.DistrictId)
+                                  .ToList();
+
+            return sortedDistricts;
         }
     }
 }

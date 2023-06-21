@@ -14,5 +14,6 @@ namespace Repositories.Repositories.UserRepositories
         List<User> GetAll();
         bool Register(CreateUserDTO user);
         bool Delete(int id);
+        bool ChangeSubscriptionStatus(int userId);
     }
 }

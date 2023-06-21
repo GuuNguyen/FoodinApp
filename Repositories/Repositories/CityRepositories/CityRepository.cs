@@ -15,7 +15,13 @@ namespace Repositories.Repositories.CityRepositories
         public CityRepository(FoodinAppManagementContext context) => _context = context;
         public List<City> GetCities()
         {
-            return _context.Cities.OrderBy(c => c.CityName == "Ho Chi Minh" ? 0 : 1).ToList();
+            var cities = _context.Cities.ToList();
+
+            var sortedCities = cities.OrderBy(c => c.CityName == "Ho Chi Minh" ? 1 : (c.CityName == "Da Nang City" ? 2 : (c.CityName == "Ha Noi" ? 3 : 4)))
+                                    .ThenBy(c => c.CityName)
+                                    .ToList();
+
+            return sortedCities;
         }
     }
 }
