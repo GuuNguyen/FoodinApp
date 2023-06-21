@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
         [HttpPost("Login")]
         public IActionResult Login(LoginDTO user)
         {
-            return Ok(_repo.Login(user));   
+            return Ok(_repo.Login(user));
         }
         [HttpPost("Register")]
         public IActionResult Register(CreateUserDTO user)
@@ -38,6 +38,13 @@ namespace WebAPI.Controllers
         public IActionResult Delete(int id)
         {
             var isSuccess = _repo.Delete(id);
+            return isSuccess ? Ok("Successful") : BadRequest("Fail");
+        }
+
+        [HttpPut("ChangeSubcriptionStatus/User/{userId}")]
+        public IActionResult ChangeSubcriptionStatus(int userId)
+        {
+            var isSuccess = _repo.ChangeSubscriptionStatus(userId);
             return isSuccess ? Ok("Successful") : BadRequest("Fail");
         }
     }
