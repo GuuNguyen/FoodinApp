@@ -24,23 +24,26 @@ namespace Repositories.Repositories.ReviewRepositories
         public List<GetReviewDTO> GetReviews(int resId)
         {
             var currentDateTime = DateTime.Now;
-            return (from rv in _context.Reviews
-                       join re in _context.Restaurants on rv.RestaurantId equals re.RestaurantId
-                       join u in _context.Users on rv.UserId equals u.UserId
-                       where re.RestaurantId == resId
-                       select new GetReviewDTO
-                       {
-                           ReviewId = rv.ReviewId,
-                           RestaurantId = rv.RestaurantId,
-                           UserId = rv.UserId,
-                           FullName = u.FullName,
-                           DateReview = FormatDateTime(rv.DateReview, currentDateTime),
-                           RatingReview = rv.RatingReview,
-                           Comment = rv.Comment,
-                           Image = rv.Image,
-                           Helpful = rv.Helpful,
-                           Unhelpful = rv.Unhelpful
-                       }).ToList();
+            var reviewList = (from rv in _context.Reviews
+                              join re in _context.Restaurants on rv.RestaurantId equals re.RestaurantId
+                              join u in _context.Users on rv.UserId equals u.UserId
+                              where re.RestaurantId == resId
+                              select new GetReviewDTO
+                              {
+                                  ReviewId = rv.ReviewId,
+                                  RestaurantId = rv.RestaurantId,
+                                  UserId = rv.UserId,
+                                  Title = rv.Title,
+                                  FullName = u.FullName,
+                                  DateReview = FormatDateTime(rv.DateReview, currentDateTime),
+                                  RatingReview = rv.RatingReview,
+                                  Comment = rv.Comment,
+                                  Image = rv.Image,
+                                  Helpful = rv.Helpful,
+                                  Unhelpful = rv.Unhelpful
+                              }).ToList();
+            var sortedList = reviewList.OrderByDescending(r => r.Helpful).ToList();
+            return sortedList;
         }
         public bool CreateAReview(CreateReviewDTO review)
         {
@@ -84,6 +87,7 @@ namespace Repositories.Repositories.ReviewRepositories
         public void VoteAReview(VoteRequestModel model)
         {
             var existingVote = _context.Votes.FirstOrDefault(v => v.ReviewId == model.ReviewId && v.UserId == model.UserId);
+            var user = _context.Users.Find(model.UserId);
             if (existingVote != null)
             {
                 _context.Votes.Remove(existingVote);
@@ -91,14 +95,7 @@ namespace Repositories.Repositories.ReviewRepositories
                 var review = _context.Reviews.FirstOrDefault(r => r.ReviewId == model.ReviewId);
                 if (review != null)
                 {
-                    if (model.IsHelpful)
-                    {
-                        review.Helpful--;
-                    }
-                    else
-                    {
-                        review.Unhelpful--;
-                    }
+                    review.Helpful--;
                 }
                 _context.SaveChanges();
             }
@@ -108,23 +105,20 @@ namespace Repositories.Repositories.ReviewRepositories
                 {
                     ReviewId = model.ReviewId,
                     UserId = model.UserId,
-                    IsHelpful = model.IsHelpful,
                 };
                 _context.Votes.Add(vote);
                 var review = _context.Reviews.FirstOrDefault(r => r.ReviewId == model.ReviewId);
                 if (review != null)
                 {
-                    if (model.IsHelpful)
+                    review.Helpful++;
+                    if (review.Helpful % 100 == 0)
                     {
-                        review.Helpful++;
-                    }
-                    else
-                    {
-                        review.Unhelpful++;
+                        user.Point += (review.Helpful / 100) * 1000;
+                        _context.SaveChanges();
                     }
                 }
                 _context.SaveChanges();
-            }
+            }          
         }
         public bool RemoveAReview(int reviewId, int userId)
         {
@@ -134,6 +128,12 @@ namespace Repositories.Repositories.ReviewRepositories
             _context.Reviews.Remove(review);
             _context.SaveChanges();
             return true;
+        }
+
+        public List<GetVoteDTO> GetVotedByUser(int userId)
+        {
+            var list = _context.Votes.Where(v => v.UserId == userId).ToList();
+            return _mapper.Map<List<GetVoteDTO>>(list);
         }
 
         private static string FormatDateTime(DateTime blogCreateAt, DateTime currentDateTime)

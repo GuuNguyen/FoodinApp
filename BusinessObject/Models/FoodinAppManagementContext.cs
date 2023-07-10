@@ -29,7 +29,9 @@ namespace BusinessObject.Models
         public virtual DbSet<Review> Reviews { get; set; } = null!;
         public virtual DbSet<TypeFood> TypeFoods { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserVoucher> UserVouchers { get; set; } = null!;
         public virtual DbSet<Vote> Votes { get; set; } = null!;
+        public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -249,6 +251,8 @@ namespace BusinessObject.Models
 
                 entity.Property(e => e.RestaurantId).HasColumnName("RestaurantID");
 
+                entity.Property(e => e.Title).HasMaxLength(50);
+
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.HasOne(d => d.Restaurant)
@@ -290,6 +294,31 @@ namespace BusinessObject.Models
                 entity.Property(e => e.UserName).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<UserVoucher>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.VoucherId });
+
+                entity.ToTable("UserVoucher");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.VoucherId).HasColumnName("VoucherID");
+
+                entity.Property(e => e.ExpiredDay).HasColumnType("date");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserVouchers)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserVoucher_User");
+
+                entity.HasOne(d => d.Voucher)
+                    .WithMany(p => p.UserVouchers)
+                    .HasForeignKey(d => d.VoucherId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserVoucher_Voucher");
+            });
+
             modelBuilder.Entity<Vote>(entity =>
             {
                 entity.ToTable("Vote");
@@ -311,6 +340,15 @@ namespace BusinessObject.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Vote_User");
+            });
+
+            modelBuilder.Entity<Voucher>(entity =>
+            {
+                entity.ToTable("Voucher");
+
+                entity.Property(e => e.VoucherId).HasColumnName("VoucherID");
+
+                entity.Property(e => e.VoucherName).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

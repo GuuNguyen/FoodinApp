@@ -15,6 +15,7 @@ namespace Repositories.Repositories.ReviewRepositories
         bool CreateAReview(CreateReviewDTO review);
         List<GetRestaurantDTO> GetTopRestaurantTrendingByDistrictId(int districtId);
         void VoteAReview(VoteRequestModel model);
+        List<GetVoteDTO> GetVotedByUser(int userId);
         bool RemoveAReview(int reviewId, int userId);
     }
 }

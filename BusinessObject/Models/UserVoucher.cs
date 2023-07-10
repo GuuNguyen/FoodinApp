@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace BusinessObject.Models
 {
-    public partial class Vote
+    public partial class UserVoucher
     {
-        public int VoteId { get; set; }
-        public int ReviewId { get; set; }
         public int UserId { get; set; }
+        public int VoucherId { get; set; }
+        public DateTime ExpiredDay { get; set; }
 
-        public virtual Review Review { get; set; } = null!;
         public virtual User User { get; set; } = null!;
+        public virtual Voucher Voucher { get; set; } = null!;
     }
 }

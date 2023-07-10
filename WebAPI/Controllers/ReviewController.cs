@@ -18,7 +18,11 @@ namespace WebAPI.Controllers
         {
             return Ok(_repo.GetReviews(restaurantId));
         }
-
+        [HttpGet("Vote/{userId}")]
+        public IActionResult GetVotedByUser(int userId)
+        {
+            return Ok(_repo.GetVotedByUser(userId));
+        }
         [HttpPost]
         public IActionResult CreateAReview(CreateReviewDTO review)
         {
@@ -32,7 +36,7 @@ namespace WebAPI.Controllers
             return Ok(_repo.GetTopRestaurantTrendingByDistrictId(districtID));
         }
 
-        [HttpPost("Vote")]
+        [HttpPut("Vote")]
         public IActionResult VoteAReview(VoteRequestModel model)
         {
             _repo.VoteAReview(model);

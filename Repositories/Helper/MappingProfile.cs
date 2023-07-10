@@ -5,6 +5,7 @@ using Repositories.DTOs.FoodDTO;
 using Repositories.DTOs.RestaurantDTO;
 using Repositories.DTOs.ReviewDTO;
 using Repositories.DTOs.UserDTO;
+using Repositories.DTOs.VoucherDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,8 @@ namespace Repositories.Helper
             CreateMap<Comment, CommentABlogDTO>().ReverseMap();
             CreateMap<Food, GetFoodDTO>().ReverseMap();
             CreateMap<Food, CreateFoodDTO>().ReverseMap();
+            CreateMap<Vote, GetVoteDTO>().ReverseMap();
+            CreateMap<Voucher, CreateVoucherDTO>().ReverseMap();
         }
     }
 }

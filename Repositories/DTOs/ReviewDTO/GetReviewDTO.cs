@@ -10,6 +10,7 @@ namespace Repositories.DTOs.ReviewDTO
     {
         public int ReviewId { get; set; }
         public int RestaurantId { get; set; }
+        public string? Title { get; set; }
         public int UserId { get; set; }
         public string FullName { get; set; } = null!;
         public string? DateReview { get; set; }

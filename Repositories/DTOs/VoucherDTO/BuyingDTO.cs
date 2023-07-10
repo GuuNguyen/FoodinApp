@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repositories.DTOs.ReviewDTO
+namespace Repositories.DTOs.VoucherDTO
 {
-    public class VoteRequestModel
+    public class BuyingDTO
     {
-        public int ReviewId { get; set; }
         public int UserId { get; set; }
+        public int VoucherId { get; set; }
     }
 }

@@ -72,6 +72,10 @@ namespace Repositories.Repositories.BlogRepositories
                     BlogId = action.BlogId
                 };
                 blog.LikeCount++;
+                if (blog.LikeCount % 100 == 0)
+                {
+                    user.Point += (blog.LikeCount / 100) * 1000;
+                }
                 _context.Likes.Add(like);
                 _context.SaveChanges();
             }
@@ -143,6 +147,5 @@ namespace Repositories.Repositories.BlogRepositories
             }
         }
 
-        
     }
 }
