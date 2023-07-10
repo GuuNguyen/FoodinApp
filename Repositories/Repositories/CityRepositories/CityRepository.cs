@@ -17,7 +17,7 @@ namespace Repositories.Repositories.CityRepositories
         {
             var cities = _context.Cities.ToList();
 
-            var sortedCities = cities.OrderBy(c => c.CityName == "Ho Chi Minh" ? 1 : (c.CityName == "Da Nang City" ? 2 : (c.CityName == "Ha Noi" ? 3 : 4)))
+            var sortedCities = cities.OrderBy(c => c.CityName == "Ho Chi Minh" ? 1 : (c.CityName == "Da Nang" ? 2 : (c.CityName == "Ha Noi" ? 3 : 4)))
                                     .ThenBy(c => c.CityName)
                                     .ToList();
 

@@ -12,6 +12,7 @@ namespace BusinessObject.Models
 
         public int ReviewId { get; set; }
         public int RestaurantId { get; set; }
+        public string? Title { get; set; }
         public DateTime DateReview { get; set; }
         public int RatingReview { get; set; }
         public string? Comment { get; set; }

@@ -47,6 +47,7 @@ namespace Repositories.Repositories.UserRepositories
 
             var newUser = _mapper.Map<User>(user);
             newUser.SubscriptionStatus = false;
+            newUser.Point = 0;
             _context.Users.Add(newUser);
             _context.SaveChanges();
             return true;

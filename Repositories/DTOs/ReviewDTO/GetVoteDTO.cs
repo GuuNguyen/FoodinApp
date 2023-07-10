@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Repositories.DTOs.ReviewDTO
 {
-    public class VoteRequestModel
+    public class GetVoteDTO
     {
+        public int VoteId { get; set; }
         public int ReviewId { get; set; }
         public int UserId { get; set; }
+        public bool IsHelpful { get; set; }
     }
 }

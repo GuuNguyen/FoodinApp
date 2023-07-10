@@ -8,6 +8,8 @@ using Repositories.Repositories.ImageRepositories;
 using Repositories.Repositories.RestaurantRepositories;
 using Repositories.Repositories.ReviewRepositories;
 using Repositories.Repositories.UserRepositories;
+using Repositories.Repositories.VoucherRepositories;
+using System.ComponentModel.DataAnnotations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,7 @@ builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IFoodRepository, FoodRepository>();
+builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
 builder.Services.ConfigureSwaggerGen(setup =>
 {
     setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo

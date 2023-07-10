@@ -12,6 +12,7 @@ namespace BusinessObject.Models
             Favorites = new HashSet<Favorite>();
             Likes = new HashSet<Like>();
             Reviews = new HashSet<Review>();
+            UserVouchers = new HashSet<UserVoucher>();
             Votes = new HashSet<Vote>();
         }
 
@@ -22,12 +23,14 @@ namespace BusinessObject.Models
         public string UserName { get; set; } = null!;
         public string Password { get; set; } = null!;
         public bool SubscriptionStatus { get; set; }
+        public int? Point { get; set; }
 
         public virtual ICollection<Blog> Blogs { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Favorite> Favorites { get; set; }
         public virtual ICollection<Like> Likes { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<UserVoucher> UserVouchers { get; set; }
         public virtual ICollection<Vote> Votes { get; set; }
     }
 }

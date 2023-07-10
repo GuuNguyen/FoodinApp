@@ -140,21 +140,24 @@ namespace Repositories.Repositories.RestaurantRepositories
             if (rating != null)
             {
                 int totalVotes = rating.OneStartCount + rating.TwoStartCount +
-                                 rating.ThreeStartCount + rating.FourStartCount + 
+                                 rating.ThreeStartCount + rating.FourStartCount +
                                  rating.FiveStartCount;
 
                 if (totalVotes > 0)
                 {
-                    double averageRating = (1 * rating.OneStartCount +
-                                            2 * rating.TwoStartCount +
-                                            3 * rating.ThreeStartCount +
-                                            4 * rating.FourStartCount +
-                                            5 * rating.FiveStartCount) / totalVotes;
-                    return averageRating;
+                    double averageRating = (1.0 * rating.OneStartCount +
+                                            2.0 * rating.TwoStartCount +
+                                            3.0 * rating.ThreeStartCount +
+                                            4.0 * rating.FourStartCount +
+                                            5.0 * rating.FiveStartCount) / totalVotes;
+                    double roundedAverageRating = Math.Round(averageRating, 1);
+                    return roundedAverageRating;
                 }
             }
             return 0.0;
         }
+
+
 
         public bool DeleteRestaurant(int id)
         {
